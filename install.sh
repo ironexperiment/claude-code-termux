@@ -113,7 +113,12 @@ trap 'rm -rf "$TMP"' EXIT
 ok "Binario instalado en $OPT_DIR/claude"
 
 # Lanzador: ejecuta el binario glibc a través de grun (kernel real, sin proot).
+# Borramos primero por si $LAUNCHER es un symlink preexistente (p.ej. de un
+# 'npm install -g @anthropic-ai/claude-code' previo, que apunta a node_modules).
+# Sin esto, 'cat >' escribiría A TRAVÉS del symlink dentro de node_modules y npm
+# podría sobrescribir el lanzador en una futura actualización.
 log "Creando lanzador en $LAUNCHER ..."
+rm -f "$LAUNCHER"
 cat > "$LAUNCHER" <<LAUNCHER_EOF
 #!$PREFIX/bin/bash
 # Lanzador de Claude Code (ruta glibc-runner). Generado por install.sh.
