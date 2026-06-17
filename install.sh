@@ -130,9 +130,8 @@ echo
 log "Prueba:"
 printf '      claude --version\n'
 printf '      claude\n\n'
-warn "No pude probar esto desde el entorno de desarrollo (era Debian x64, no Termux)."
-warn "Si 'grun' falla al cargar el binario, mira la sección de troubleshooting del README"
-warn "(suele ser cuestión de patchelf / intérprete glibc)."
+warn "Si 'grun' falla al cargar el binario, revisa la sección 'Solución de problemas'"
+warn "del README (suele resolverse con patchelf / el intérprete de glibc)."
 echo
 log "Cuando Anthropic publique el binario oficial de Android, vuelve a ejecutar:"
 printf '      bash install.sh\n'
