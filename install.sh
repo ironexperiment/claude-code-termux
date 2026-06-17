@@ -118,6 +118,17 @@ cat > "$LAUNCHER" <<LAUNCHER_EOF
 #!$PREFIX/bin/bash
 # Lanzador de Claude Code (ruta glibc-runner). Generado por install.sh.
 # Ejecuta el binario glibc nativo sobre Termux mediante grun, sin proot-distro.
+#
+# CLAUDE_CODE_EXECPATH se fuerza a /dev/null (no ejecutable) ANTES de exec'ar grun.
+# Motivo: grun arranca el binario glibc como \`ld.so claude ...\`, asi que el
+# "self-exe" real del proceso es el enlazador dinamico (ld-linux-*.so), no el
+# binario claude. Si se deja que Claude Code fije CLAUDE_CODE_EXECPATH solo, sus
+# funciones de shell find()/grep() (que re-ejecutan "\$CLAUDE_CODE_EXECPATH" como
+# bfs/ugrep) acaban invocando el enlazador con los flags de la herramienta y
+# rompen con "X: error while loading shared libraries". Con la variable no
+# ejecutable, esas funciones caen a su fallback (command find / command grep,
+# herramientas nativas de Termux). Ver seccion de troubleshooting del README.
+export CLAUDE_CODE_EXECPATH=/dev/null
 exec grun "$OPT_DIR/claude" "\$@"
 LAUNCHER_EOF
 chmod +x "$LAUNCHER"

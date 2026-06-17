@@ -147,6 +147,27 @@ pkg install -y grep gawk sed coreutils diffutils which tar gzip less
 ```
 `install.sh` ya instala las más comunes; si aparece otra, instálala con `pkg`.
 
+### `find`/`grep` fallan con "error while loading shared libraries"
+Bug conocido de la ruta `grun`. Claude Code envuelve `find`/`grep` como funciones
+de shell que relanzan su propio binario (`$CLAUDE_CODE_EXECPATH`) como herramientas
+internas (`bfs`/`ugrep`). Pero como `grun` arranca el binario vía el enlazador de
+glibc (`ld.so claude ...`), `$CLAUDE_CODE_EXECPATH` apunta al **enlazador**, no al
+binario, y al ejecutarlo con los flags de la herramienta revienta así:
+```
+-S: error while loading shared libraries: -S: cannot open shared object file...
+```
+**El `install.sh` ya lo mitiga**: el lanzador exporta `CLAUDE_CODE_EXECPATH=/dev/null`,
+lo que hace que esas funciones caigan a su fallback (`command find` / `command grep`,
+las herramientas nativas de Termux). Si ya tenías una instalación previa, vuelve a
+ejecutar `bash install.sh` para regenerar el lanzador con el arreglo.
+
+Comprobación (tras reiniciar `claude`):
+```bash
+echo "$CLAUDE_CODE_EXECPATH"   # debe imprimir /dev/null
+```
+> Contrapartida: se pierde el filtrado automático de `.gitignore`/ocultos del modo
+> interno de búsqueda, pero `find`/`grep` vuelven a funcionar.
+
 ### Errores de búsqueda / `ripgrep`
 El binario suele traer su propio `rg`, pero por si acaso:
 ```bash

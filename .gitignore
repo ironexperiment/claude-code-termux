@@ -2,6 +2,9 @@
 .inspect/
 node_modules/
 
+# Reportes/notas internas de depuración (contienen IDs de sesión)
+reporte_*.md
+
 # Sistema / editores
 .DS_Store
 *.swp
