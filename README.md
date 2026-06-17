@@ -19,8 +19,8 @@ En Termux:
 
 ```bash
 pkg install -y git
-git clone https://github.com/ironexperiment/claude-code-termux.git
-cd claude-code-termux
+git clone https://github.com/ironexperiment/Claude-code-for-termux.git
+cd Claude-code-for-termux
 bash install.sh
 ```
 
