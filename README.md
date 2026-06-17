@@ -192,7 +192,13 @@ rm -rf "$PREFIX/opt/claude-code"
 
 | Arquitectura | Android | Termux | Resultado |
 |---|---|---|---|
-| arm64 (aarch64) | — | — | ✅ Funciona (Claude Code 2.1.179 vía `grun`) |
+| arm64 (aarch64) | 14 | 0.118.3 | ✅ Funciona (Claude Code 2.1.179 vía `grun`) |
+
+> Nota sobre la búsqueda: `find`/`grep` funcionan vía el fallback a las herramientas
+> nativas de Termux (`command find`/`command grep`). Las versiones de búsqueda
+> embebidas (`bfs`/`ugrep`) no pueden ejecutarse bajo `grun`, así que la primera
+> llamada puede fallar y reintentar — funcional, pero no instantáneo. Se resuelve
+> por completo cuando llegue el binario oficial de Android.
 
 ¿Lo probaste en tu dispositivo? Abre un *issue* o un *pull request* añadiendo tu fila
 (arquitectura, versión de Android y Termux, y si funcionó) — ayuda a los demás.
