@@ -1,0 +1,9 @@
+# Carpeta usada solo para inspeccionar el paquete npm; no forma parte del proyecto
+.inspect/
+node_modules/
+
+# Sistema / editores
+.DS_Store
+*.swp
+*~
+.claude/
